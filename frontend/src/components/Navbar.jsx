@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
-import { AuthContext } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { ThemeContext } from '../context/ThemeContext';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import FaceIcon from '@mui/icons-material/Face';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 const Navigation = () => {
   const { user, logout } = useContext(AuthContext);
+  const { darkMode, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -15,16 +18,20 @@ const Navigation = () => {
   };
 
   return (
-    <Navbar bg="white" expand="lg" className="shadow-sm mb-3">
+    <Navbar bg={darkMode ? 'dark' : 'white'} variant={darkMode ? 'dark' : 'light'} expand="lg" sticky="top" className="shadow-sm mb-4 py-2" style={{ zIndex: 1020 }}>
       <Container>
         <Navbar.Brand as={Link} to="/" className="fw-bold text-primary">Social</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto align-items-center gap-3">
+            <div onClick={toggleTheme} style={{ cursor: 'pointer' }} className="me-2 text-secondary">
+              {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+            </div>
             {user ? (
               <>
-                <span className="fw-bold">{user.username}</span>
-                <NotificationsIcon color="action" />
+                <span className={`fw-bold ${darkMode ? 'text-light' : 'text-dark'}`}>{user.username}</span>
+                <Link to="/saved" className="text-decoration-none text-secondary">Saved</Link>
+                <NotificationsIcon className="text-secondary" />
                 <Button variant="outline-danger" size="sm" onClick={handleLogout}>Logout</Button>
               </>
             ) : (
