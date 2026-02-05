@@ -45,7 +45,7 @@ const Login = () => {
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" name="password" placeholder="Password" required onChange={handleChange} />
           </Form.Group>
-          <Button variant="primary" type="submit" className="w-100">Login</Button>
+          <Button variant="primary" type="submit" className="w-100">Login (v2.0)</Button>
         </Form>
         <div className="text-center mt-3">
           <small>Don't have an account? <Link to="/signup">Sign Up</Link></small>
