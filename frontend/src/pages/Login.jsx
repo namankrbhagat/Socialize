@@ -16,11 +16,17 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Using API Base URL:', api.defaults.baseURL);
+    console.log('Sending Login Request:', formData);
     try {
       const res = await api.post('/auth/login', formData);
+      console.log('Login Success:', res.data);
       login(res.data.user, res.data.token);
       navigate('/');
     } catch (err) {
+      console.error('Login Error Full Object:', err);
+      console.error('Error Response:', err.response);
+      console.error('Error Message:', err.message);
       setError(err.response?.data?.message || 'Login failed');
     }
   };
