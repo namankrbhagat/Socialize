@@ -32,6 +32,11 @@ const CreatePost = () => {
       setPreview(null);
     } catch (err) {
       console.error(err);
+      if (err.response && err.response.status === 401) {
+        alert("Session expired. Please logout and login again.");
+      } else {
+        alert("Failed to create post. Please try again.");
+      }
     }
   };
 

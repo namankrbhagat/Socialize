@@ -29,7 +29,17 @@ const Navigation = () => {
             </div>
             {user ? (
               <>
-                <span className={`fw-bold ${darkMode ? 'text-light' : 'text-dark'}`}>{user.username}</span>
+                <div className="d-flex align-items-center gap-2">
+                  <Link to="/profile">
+                    <img
+                      src={user.profilePic && user.profilePic.startsWith('http') ? user.profilePic : "/avatar.png"}
+                      alt="Profile"
+                      className="rounded-circle"
+                      style={{ width: '35px', height: '35px', objectFit: 'cover' }}
+                    />
+                  </Link>
+                  <span className={`fw-bold ${darkMode ? 'text-light' : 'text-dark'}`}>{user.username}</span>
+                </div>
                 <Button variant="outline-danger" size="sm" onClick={handleLogout}>Logout</Button>
               </>
             ) : (

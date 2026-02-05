@@ -103,7 +103,7 @@ const Post = ({ post, socket }) => {
           <Card.Text>{post.content}</Card.Text>
 
           {post.image && (
-            <Image src={`${baseURL}${post.image}`} fluid rounded className="mb-3 w-100" style={{ maxHeight: '500px', objectFit: 'cover' }} />
+            <Image src={post.image.startsWith('http') ? post.image : `${baseURL}${post.image}`} fluid rounded className="mb-3 w-100" style={{ maxHeight: '500px', objectFit: 'cover' }} />
           )}
 
           <div className="d-flex justify-content-between align-items-center mt-3">

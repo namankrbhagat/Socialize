@@ -16,6 +16,12 @@ const io = new Server(server, {
   }
 });
 
+const fs = require('fs');
+
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
+
 // Middleware
 app.use(express.json());
 app.use(cors({

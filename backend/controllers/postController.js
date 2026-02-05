@@ -17,7 +17,7 @@ exports.createPost = async (req, res) => {
     const { content } = req.body;
     let image = '';
     if (req.file) {
-      image = `/uploads/${req.file.filename}`;
+      image = req.file.path; // Cloudinary returns the full URL in `path`
     }
 
     const newPost = new Post({ userId: req.user.id, content, image });

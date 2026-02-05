@@ -5,16 +5,7 @@ const path = require('path');
 const authMiddleware = require('../middleware/authMiddleware');
 const postController = require('../controllers/postController');
 
-// Multer config
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage });
+const upload = require('../middleware/uploadMiddleware');
 
 router.get('/', postController.getPosts);
 router.post('/', authMiddleware, upload.single('image'), postController.createPost);

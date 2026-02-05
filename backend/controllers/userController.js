@@ -43,3 +43,21 @@ exports.getMe = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Update Profile
+exports.updateProfile = async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const updates = {};
+    if (username) updates.username = username;
+    if (email) updates.email = email;
+    if (req.file) {
+      updates.profilePic = req.file.path; // Cloudinary returns the full URL in `path`
+    }
+
+    const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true }).select('-password');
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
