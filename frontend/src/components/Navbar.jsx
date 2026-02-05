@@ -20,7 +20,7 @@ const Navigation = () => {
   return (
     <Navbar bg={darkMode ? 'dark' : 'white'} variant={darkMode ? 'dark' : 'light'} expand="lg" sticky="top" className="shadow-sm mb-4 py-2" style={{ zIndex: 1020 }}>
       <Container>
-        <Navbar.Brand as={Link} to="/" className="fw-bold text-primary">Social</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/" className="fw-bold text-primary">Socialize</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto align-items-center gap-3">
