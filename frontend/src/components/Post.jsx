@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Card, Image, Button, Form, InputGroup } from 'react-bootstrap';
+import { api, baseURL } from '../api';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CommentIcon from '@mui/icons-material/Comment';
@@ -7,7 +8,6 @@ import SendIcon from '@mui/icons-material/Send';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
 import { motion } from 'framer-motion';
 
 const timeAgo = (date) => {
@@ -23,6 +23,13 @@ const timeAgo = (date) => {
   interval = seconds / 60;
   if (interval > 1) return Math.floor(interval) + " minutes ago";
   return Math.floor(seconds) + " seconds ago";
+};
+
+const getProfileSrc = (user) => {
+  if (!user?.profilePic || user.profilePic.includes('ui-avatars.com')) {
+    return "/avatar.png";
+  }
+  return user.profilePic;
 };
 
 const Post = ({ post, socket }) => {
@@ -44,7 +51,7 @@ const Post = ({ post, socket }) => {
   const handleLike = async () => {
     try {
       if (!user) return;
-      await axios.put(`http://localhost:5000/api/posts/${post._id}/like`);
+      await api.put(`/posts/${post._id}/like`);
     } catch (err) {
       console.error(err);
     }
@@ -53,7 +60,7 @@ const Post = ({ post, socket }) => {
   const handleSave = async () => {
     try {
       if (!user) return;
-      const res = await axios.put(`http://localhost:5000/api/users/save/${post._id}`);
+      await api.put(`/users/save/${post._id}`);
       setIsSaved(!isSaved);
     } catch (err) {
       console.error(err);
@@ -64,7 +71,7 @@ const Post = ({ post, socket }) => {
     e.preventDefault();
     if (!commentText.trim()) return;
     try {
-      await axios.post(`http://localhost:5000/api/posts/${post._id}/comment`, { text: commentText });
+      await api.post(`/posts/${post._id}/comment`, { text: commentText });
       setCommentText('');
     } catch (err) {
       console.error(err);
@@ -81,7 +88,7 @@ const Post = ({ post, socket }) => {
         <Card.Body>
           <div className="d-flex align-items-center mb-3">
             <Image
-              src={post.userId?.profilePic || "https://via.placeholder.com/40"}
+              src={getProfileSrc(post.userId)}
               roundedCircle
               width={40}
               height={40}
@@ -96,7 +103,7 @@ const Post = ({ post, socket }) => {
           <Card.Text>{post.content}</Card.Text>
 
           {post.image && (
-            <Image src={`http://localhost:5000${post.image}`} fluid rounded className="mb-3 w-100" style={{ maxHeight: '500px', objectFit: 'cover' }} />
+            <Image src={`${baseURL}${post.image}`} fluid rounded className="mb-3 w-100" style={{ maxHeight: '500px', objectFit: 'cover' }} />
           )}
 
           <div className="d-flex justify-content-between align-items-center mt-3">
@@ -144,7 +151,7 @@ const Post = ({ post, socket }) => {
               {post.comments.map((comment, index) => (
                 <div key={index} className="d-flex mb-2">
                   <Image
-                    src={comment.userId?.profilePic || "https://via.placeholder.com/30"}
+                    src={getProfileSrc(comment.userId)}
                     roundedCircle
                     width={30}
                     height={30}

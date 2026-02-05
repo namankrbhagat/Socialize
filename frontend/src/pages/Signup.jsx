@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Container, Form, Button, Card, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '../api';
 import { AuthContext } from '../context/AuthContext';
 
 const Signup = () => {
@@ -17,7 +17,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/signup', formData);
+      const res = await api.post('/auth/signup', formData);
       login(res.data.user, res.data.token);
       navigate('/');
     } catch (err) {

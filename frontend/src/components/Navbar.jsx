@@ -30,8 +30,6 @@ const Navigation = () => {
             {user ? (
               <>
                 <span className={`fw-bold ${darkMode ? 'text-light' : 'text-dark'}`}>{user.username}</span>
-                <Link to="/saved" className="text-decoration-none text-secondary">Saved</Link>
-                <NotificationsIcon className="text-secondary" />
                 <Button variant="outline-danger" size="sm" onClick={handleLogout}>Logout</Button>
               </>
             ) : (

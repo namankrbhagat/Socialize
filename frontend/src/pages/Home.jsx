@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Spinner, Card, ListGroup, Button } from 'react-bootstrap';
 import CreatePost from '../components/CreatePost';
 import Post from '../components/Post';
-import axios from 'axios';
+import { api, baseURL } from '../api';
 import { io } from 'socket.io-client';
 import { AuthContext } from '../context/AuthContext';
 import HomeIcon from '@mui/icons-material/Home';
@@ -21,9 +21,9 @@ const Home = () => {
       try {
         let res;
         if (view === 'saved') {
-          res = await axios.get('http://localhost:5000/api/users/saved');
+          res = await api.get('/users/saved');
         } else {
-          res = await axios.get('http://localhost:5000/api/posts');
+          res = await api.get('/posts');
         }
         setPosts(res.data);
         setLoading(false);
@@ -35,7 +35,7 @@ const Home = () => {
 
     fetchPosts();
 
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(baseURL);
     setSocket(newSocket);
 
     return () => newSocket.close();

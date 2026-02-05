@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
-import axios from 'axios';
+import { api } from '../api';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -24,7 +24,7 @@ const CreatePost = () => {
     if (image) formData.append('image', image);
 
     try {
-      await axios.post('http://localhost:5000/api/posts', formData, {
+      await api.post('/posts', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setContent('');
