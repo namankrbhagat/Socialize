@@ -20,9 +20,16 @@ const io = new Server(server, {
 app.use(express.json());
 app.use(cors({
   origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+app.options('*', cors()); // Enable pre-flight for all routes
+
+// Debug logging
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
 app.use('/uploads', express.static('uploads')); // For serving images if local
 
 // Database Connection
